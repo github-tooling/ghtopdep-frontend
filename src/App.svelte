@@ -1,4 +1,5 @@
 <script>
+  import Tailwindcss from './Tailwindcss.svelte';
   import { onMount } from 'svelte';
   import { DataTable, List } from "smelte";
   import orderBy from 'lodash/orderBy';
@@ -21,6 +22,9 @@
 		data = await orderBy(result.deps, 'stars', 'desc');
   }
 </script>
+
+
+<Tailwindcss />
 
 <div class="flex m-5">
   <div class="w-1/4 mr-3">

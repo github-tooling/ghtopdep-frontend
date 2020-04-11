@@ -10,3 +10,5 @@ public/components.*
 public/utils.*
 .env
 .idea
+.yarn
+.pnp.js

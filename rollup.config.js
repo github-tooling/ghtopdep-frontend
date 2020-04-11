@@ -1,23 +1,17 @@
-import svelte from "rollup-plugin-svelte";
-import resolve from "rollup-plugin-node-resolve";
-import commonjs from "rollup-plugin-commonjs";
-import livereload from "rollup-plugin-livereload";
-import { terser } from "rollup-plugin-terser";
-import postcss from "rollup-plugin-postcss";
 import replace from '@rollup/plugin-replace';
-import getPreprocessor from "svelte-preprocess";
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+
+import svelte from "rollup-plugin-svelte";
+import sveltePreprocess from "svelte-preprocess";
+
+import { terser } from "rollup-plugin-terser";
+import livereload from "rollup-plugin-livereload";
 import dotenv from 'dotenv'
 
 dotenv.config()
 const production = !process.env.ROLLUP_WATCH;
 
-const preprocess = getPreprocessor({
-  transformers: {
-    postcss: {
-      plugins: require("./postcss.config.js")()
-    }
-  }
-});
 
 export default {
   input: "src/main.js",
@@ -29,24 +23,22 @@ export default {
   },
   plugins: [
     svelte({
-      preprocess,
+      preprocess: sveltePreprocess({ postcss: true }),
       // enable run-time checks when not in production
       dev: !production,
       css: css => {
         css.write("public/components.css");
       }
     }),
-    postcss({
-      plugins: require("./postcss.config.js")(production),
-      extract: "public/utils.css"
-    }),
-
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
     // some cases you'll need additional configuration —
     // consult the documentation for details:
     // https://github.com/rollup/rollup-plugin-commonjs
-    resolve({ browser: true }),
+    resolve({
+      browser: true,
+      dedupe: importee => importee === 'svelte' || importee.startsWith('svelte/')
+    }),
     commonjs(),
 
     // Watch the `public` directory and refresh the
