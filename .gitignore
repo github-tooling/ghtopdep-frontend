@@ -12,3 +12,4 @@ public/utils.*
 .idea
 .yarn
 .pnp.js
+.now
