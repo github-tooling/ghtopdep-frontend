@@ -33,7 +33,7 @@
     "start:dev": "sirv public --dev"
   },
   "dependencies": {
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "smelte": "^1.0.12",
     "tailwindcss-elevation": "^0.3.1"
   }
